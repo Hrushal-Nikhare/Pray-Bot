@@ -62,7 +62,7 @@ async def set_pray(ctx: discord.Interaction, user: discord.User):
 
 
 @tasks.loop(seconds=5.0, count=5)
-async def my_task():
+async def my_task(ctx: discord.Interaction):
     # read user.txt and set user to it
     # with open("user.txt", "r") as f:
     #     user = f.read()
