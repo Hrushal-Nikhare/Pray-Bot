@@ -33,7 +33,7 @@ class MyClient(discord.Client):
 		# This copies the global commands over to your guild.
 		self.tree.copy_global_to(guild=MY_GUILD)
 		await self.tree.sync(guild=MY_GUILD)
-		# impersonate.start()
+		impersonate.start()
 
 
 intents = discord.Intents.default()
@@ -69,7 +69,7 @@ async def set_pray(ctx: discord.Interaction, user: discord.User):
 
 
 
-@tasks.loop(seconds=15.0)
+@tasks.loop(hours=12.0)
 async def impersonate():
 	# users = [282538758182797312,247041157148835840,741192494133280851]
 	with open("users.json","r") as f:
