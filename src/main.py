@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from discord.ext import commands, tasks
 from discord import app_commands
 import discord
@@ -5,6 +6,8 @@ from typing import Optional
 import os
 from dotenv import load_dotenv
 import json
+import asyncio
+import random
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -47,7 +50,7 @@ async def set_pray(ctx: discord.Interaction, user: Optional[discord.User] = None
     if user is None:
         user = ctx.user
 
-    with open("users.json", "r+") as f:
+    with open("/home/carboncap/Pray-Bot/src/users.json", "r+") as f:
         users = set(json.load(f))
         users = list(users)
         users.append(user.id)
@@ -55,18 +58,19 @@ async def set_pray(ctx: discord.Interaction, user: Optional[discord.User] = None
         users = list(users)
         f.seek(0)
         json.dump(users, f)
-    await ctx.response.send_message(f'Done! added {user.name}#{user.discriminator} to the list', delete_after=5.0)
+    await ctx.response.send_message(f'Done! added {user.name}#{user.discriminator} to the list', ephemeral=True)
 
 
 @tasks.loop(hours=12.0)
 async def pray():
-    with open("users.json", "r") as f:
+    with open("/home/carboncap/Pray-Bot/src/users.json", "r") as f:
         users = json.load(f)
 
     channel = await client.fetch_channel(channel_id)
     for i in enumerate(users):
         user = await client.fetch_user(i[1])
         message = ":pray:"
+        await asyncio.sleep(random.randint(900,3600))
         webhook = await channel.create_webhook(name=user.display_name)
         await webhook.send(message, username=user.display_name, avatar_url=user.display_avatar)
         await webhook.delete()
