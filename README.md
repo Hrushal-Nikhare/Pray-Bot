@@ -1,5 +1,5 @@
 # Pray-Bot
-## PR welcomed
+## PRs welcomed
 todo
 - user list thing
 - cron job thing
